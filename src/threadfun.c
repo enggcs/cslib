@@ -39,12 +39,16 @@ unsigned int getNumOfWordsinParag(char *inputFileName);
 int main(int argc,char *argv[])
 {
   unsigned int numOfWordsinParag = 0, rc;
-  int numofThreads = 0;
+  int numofThreads = 0, thrd_id;
   char *inputFileName = "input.txt";
   rc = printWordsFromParag(inputFileName);
   numOfWordsinParag = getNumOfWordsinParag(inputFileName);
   numofThreads = numOfWordsinParag;
   pthread_t threads[numofThreads];
+  for(int i = 0; i < numofThreads ; i++)
+  {
+	  thrd_id = pthread_create(&threads[i],NULL,&printWordsFromParag,(char *)inputFileName);
+  }
 #ifdef DEBUG_ALL
   printf("Debug2: %d \n", numOfWordsinParag);
 #endif
@@ -117,7 +121,7 @@ _RESULT printWordsFromParag(char *inputFileName)
 			   }
 			   j++;
 			   word[wordlen] = '\0';
-			   printf("Debug: %s \n", word);
+			   printf(" %s \n", word);
 			   memset(word,0,MAX_WORD_LEN);
 			 }
         }
