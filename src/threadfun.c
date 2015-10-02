@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h> 
+#include <stdbool.h> //Use later
 #include <pthread.h>
 
 
@@ -41,13 +41,20 @@ int main(int argc,char *argv[])
   unsigned int numOfWordsinParag = 0, rc;
   int numofThreads = 0, thrd_id;
   char *inputFileName = "input.txt";
+  void *status;
   rc = printWordsFromParag(inputFileName);
   numOfWordsinParag = getNumOfWordsinParag(inputFileName);
   numofThreads = numOfWordsinParag;
+  pthread_mutex_t mutex;
   pthread_t threads[numofThreads];
   for(int i = 0; i < numofThreads ; i++)
   {
 	  thrd_id = pthread_create(&threads[i],NULL,&printWordsFromParag,(char *)inputFileName);
+  }
+  /* Wait on the other threads */
+  for(i = 0; i < numofThreads; i++)
+  {
+	  pthread_join(threads[i], &status);
   }
 #ifdef DEBUG_ALL
   printf("Debug2: %d \n", numOfWordsinParag);
@@ -56,6 +63,7 @@ int main(int argc,char *argv[])
   return 0;
 }
 
+/* Returns number of words in given input text file */
 unsigned int getNumOfWordsinParag(char *inputFileName)
 {
 	FILE *inputFilePtr = NULL;
@@ -94,6 +102,7 @@ unsigned int getNumOfWordsinParag(char *inputFileName)
 	return wCount;
 }
 
+/* Prints each word read from input text file returns error code on failure */
 _RESULT printWordsFromParag(char *inputFileName)
 {
 	FILE *inputFilePtr = NULL;
@@ -107,6 +116,7 @@ _RESULT printWordsFromParag(char *inputFileName)
 	}
 	else
 	{	
+        pthread_mutex_lock(&mutex);
         while(fgets(buff,MAX_BUFF_SIZE,inputFilePtr)!= NULL) 
         { 
 			 int k = 0, j = 0;
@@ -125,7 +135,17 @@ _RESULT printWordsFromParag(char *inputFileName)
 			   memset(word,0,MAX_WORD_LEN);
 			 }
         }
+		pthread_mutex_unlock(&mutex);
 	}
     fclose(inputFilePtr);
+	pthread_exit((void*) 0);
 	return eGENERIC_SUCCESS;
 }
+
+/* input.txt :
+----------------
+You are given a paragraph , which contain n number of words, you are given m threads. 
+What you need to do is , each thread should print one word and give the control to next thread, 
+this way each thread will keep on printing one word , in case last thread come, it should invoke 
+first thread. Printing will repeat until all the words are printed in paragraph. 
+Finally all threads should exit gracefully. What kind of synchronization will use?
