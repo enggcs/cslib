@@ -49,7 +49,7 @@ int main(int argc,char *argv[])
   pthread_t threads[numofThreads];
   for(int i = 0; i < numofThreads ; i++)
   {
-	  thrd_id = pthread_create(&threads[i],NULL,&printWordsFromParag,(char *)inputFileName);
+	  thrd_id = pthread_create(&threads[i],NULL,&printWordsFromParag,(void *)inputFileName);
   }
   /* Wait on the other threads */
   for(i = 0; i < numofThreads; i++)
