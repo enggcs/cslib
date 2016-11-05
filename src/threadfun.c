@@ -43,7 +43,7 @@ int main(int argc,char *argv[])
   void *status;
 	
   strcpy(inputFileName,"input.txt");
-  rc = printWordsFromParag(inputFileName);
+  //rc = printWordsFromParag(inputFileName);
   numOfWordsinParag = getNumOfWordsinParag(inputFileName);
   numofThreads = numOfWordsinParag;
   pthread_mutex_t mutex;
