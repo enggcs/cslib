@@ -7,8 +7,7 @@
 
 const unsigned int MAX_BUFF_SIZE = 1024;
 const unsigned int MAX_WORD_LEN  = 128;
-
-typedef unsigned int _RESULT;
+const unsinged int MAX_FNAME_LEN = 256;
 
 typedef enum 
 {
@@ -21,7 +20,7 @@ typedef enum
 #define DEBUG_ALL (1)
 
 /* Function prototypes */
-_RESULT printWordsFromParag(char *inputFile);
+int printWordsFromParag(void *inputFile);
 unsigned int getNumOfWordsinParag(char *inputFileName);
 
 
@@ -40,9 +39,11 @@ int main(int argc,char *argv[])
 {
   unsigned int numOfWordsinParag = 0, rc;
   int numofThreads = 0, thrd_id;
-  char *inputFileName = "input.txt";
+  char inputFileName[MAX_FNAME_LEN];
   void *status;
   rc = printWordsFromParag(inputFileName);
+  
+  strcpy(inputFileName,"input.txt");
   numOfWordsinParag = getNumOfWordsinParag(inputFileName);
   numofThreads = numOfWordsinParag;
   pthread_mutex_t mutex;
@@ -64,13 +65,14 @@ int main(int argc,char *argv[])
 }
 
 /* Returns number of words in given input text file */
-unsigned int getNumOfWordsinParag(char *inputFileName)
+unsigned int getNumOfWordsinParag(void *inputFileName)
 {
 	FILE *inputFilePtr = NULL;
+	char *temp = (char *)inutFileName;
 	char buff[MAX_BUFF_SIZE];
 	char word[MAX_WORD_LEN];
 	unsigned int wCount = 0;
-	inputFilePtr = fopen(inputFileName,"r");
+	inputFilePtr = fopen(temp,"r");
 	if(!inputFilePtr)
 	{
 		printf("Unable to read the file %s\n",inputFileName);
@@ -103,7 +105,7 @@ unsigned int getNumOfWordsinParag(char *inputFileName)
 }
 
 /* Prints each word read from input text file returns error code on failure */
-_RESULT printWordsFromParag(char *inputFileName)
+int printWordsFromParag(char *inputFileName)
 {
 	FILE *inputFilePtr = NULL;
 	char buff[MAX_BUFF_SIZE];
