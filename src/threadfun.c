@@ -21,7 +21,7 @@ typedef enum
 
 /* Function prototypes */
 int printWordsFromParag(void *inputFile);
-unsigned int getNumOfWordsinParag(void *inputFileName);
+void *getNumOfWordsinParag(void *inputFileName);
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /****************************************************************************************************
@@ -104,7 +104,7 @@ unsigned int getNumOfWordsinParag(char *inputFileName)
 }
 
 /* Prints each word read from input text file returns error code on failure */
-int printWordsFromParag(void *inputFileName)
+void *printWordsFromParag(void *inputFileName)
 {
 	FILE *inputFilePtr = NULL;
 	char buff[MAX_BUFF_SIZE];
@@ -141,7 +141,7 @@ int printWordsFromParag(void *inputFileName)
 	}
     fclose(inputFilePtr);
 	pthread_exit((void*) 0);
-	return eGENERIC_SUCCESS;
+	return NULL;
 }
 
 /* input.txt :
