@@ -7,7 +7,7 @@
 
 const unsigned int MAX_BUFF_SIZE = 1024;
 const unsigned int MAX_WORD_LEN  = 128;
-const unsinged int MAX_FNAME_LEN = 256;
+const unsigned int MAX_FNAME_LEN = 256;
 
 typedef enum 
 {
@@ -22,7 +22,7 @@ typedef enum
 /* Function prototypes */
 int printWordsFromParag(void *inputFile);
 unsigned int getNumOfWordsinParag(char *inputFileName);
-
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /****************************************************************************************************
 * What needs to be implemented ?                                                                    *
@@ -37,18 +37,18 @@ unsigned int getNumOfWordsinParag(char *inputFileName);
 
 int main(int argc,char *argv[])
 {
-  unsigned int numOfWordsinParag = 0, rc;
+  unsigned int numOfWordsinParag = 0, rc,i;
   int numofThreads = 0, thrd_id;
   char inputFileName[MAX_FNAME_LEN];
   void *status;
-  rc = printWordsFromParag(inputFileName);
-  
+	
   strcpy(inputFileName,"input.txt");
+  rc = printWordsFromParag(inputFileName);
   numOfWordsinParag = getNumOfWordsinParag(inputFileName);
   numofThreads = numOfWordsinParag;
   pthread_mutex_t mutex;
   pthread_t threads[numofThreads];
-  for(int i = 0; i < numofThreads ; i++)
+  for(i = 0; i < numofThreads ; i++)
   {
 	  thrd_id = pthread_create(&threads[i],NULL,&printWordsFromParag,(void *)inputFileName);
   }
