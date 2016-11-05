@@ -21,7 +21,7 @@ typedef enum
 
 /* Function prototypes */
 int printWordsFromParag(void *inputFile);
-unsigned int getNumOfWordsinParag(char *inputFileName);
+unsigned int getNumOfWordsinParag(void *inputFileName);
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /****************************************************************************************************
@@ -65,14 +65,13 @@ int main(int argc,char *argv[])
 }
 
 /* Returns number of words in given input text file */
-unsigned int getNumOfWordsinParag(void *inputFileName)
+unsigned int getNumOfWordsinParag(char *inputFileName)
 {
 	FILE *inputFilePtr = NULL;
-	char *temp = (char *)inutFileName;
 	char buff[MAX_BUFF_SIZE];
 	char word[MAX_WORD_LEN];
 	unsigned int wCount = 0;
-	inputFilePtr = fopen(temp,"r");
+	inputFilePtr = fopen(inputFileName,"r");
 	if(!inputFilePtr)
 	{
 		printf("Unable to read the file %s\n",inputFileName);
@@ -105,12 +104,13 @@ unsigned int getNumOfWordsinParag(void *inputFileName)
 }
 
 /* Prints each word read from input text file returns error code on failure */
-int printWordsFromParag(char *inputFileName)
+int printWordsFromParag(void *inputFileName)
 {
 	FILE *inputFilePtr = NULL;
 	char buff[MAX_BUFF_SIZE];
 	char word[MAX_WORD_LEN];
-	inputFilePtr = fopen(inputFileName,"r");
+	char *temp = (char *)inputFileName;
+	inputFilePtr = fopen(temp,"r");
 	if(!inputFilePtr)
 	{
 		printf("Unable to read the file %s\n",inputFileName);
