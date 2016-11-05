@@ -114,7 +114,7 @@ void *printWordsFromParag(void *inputFileName)
 	if(!inputFilePtr)
 	{
 		printf("Unable to read the file %s\n",inputFileName);
-		return eFILE_NOT_FOUND;
+		return -1;
 	}
 	else
 	{	
