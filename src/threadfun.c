@@ -20,8 +20,8 @@ typedef enum
 #define DEBUG_ALL (1)
 
 /* Function prototypes */
-int printWordsFromParag(void *inputFile);
-void *getNumOfWordsinParag(void *inputFileName);
+void *printWordsFromParag(void *inputFile);
+int getNumOfWordsinParag(void *inputFileName);
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /****************************************************************************************************
