@@ -50,7 +50,7 @@ int main(int argc,char *argv[])
   pthread_t threads[numofThreads];
   for(i = 0; i < numofThreads ; i++)
   {
-	  thrd_id = pthread_create(&threads[i],NULL,(void *)printWordsFromParag,(void *)inputFileName);
+	  thrd_id = pthread_create(&threads[i],NULL,printWordsFromParag,(void *)inputFileName);
   }
   /* Wait on the other threads */
   for(i = 0; i < numofThreads; i++)
@@ -139,7 +139,7 @@ void *printWordsFromParag(void *inputFileName)
         }
 		pthread_mutex_unlock(&mutex);
 	}
-    fclose(inputFilePtr);
+        fclose(inputFilePtr);
 	pthread_exit((void*) 0);
 	return NULL;
 }
